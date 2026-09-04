@@ -1,0 +1,80 @@
+-- ★ HƯNG HUB V20.1 - ULTIMATE NATIVE PREMIUM (ANTI-BAN & HORIZONTAL PRO LAYOUT) ★local P, R = game:GetService("Players").LocalPlayer, game:GetService("RunService")local TS, HS, TP = game:GetService("TweenService"), game:GetService("HttpService"), game:GetService("TeleportService")local UI = Instance.new("ScreenGui", P:WaitForChild("PlayerGui")); UI.ResetOnSpawn, UI.Name = false, "HungHub_V20_1_AntiBan"
+-- CHẶN LUỒNG QUÉT CỦA SERVER (ANTI-BAN GHOST HOOK)local mt = getrawmetatable and getrawmetatable(game)if mt and setreadonly then
+    setreadonly(mt, false)
+    local oldIndex = mt.__index
+    mt.__index = newcclosure(function(t, k)
+        if tostring(t) == "Humanoid" and (k == "WalkSpeed" or k == "JumpPower") then
+            return k == "WalkSpeed" and 16 or 50 -- Đánh lừa bộ quét thuộc tính trả về chỉ số gốc
+        end
+        return oldIndex(t, k)
+    end)
+    setreadonly(mt, true)end
+-- TẠO GIAO DIỆN HÀNG NGANG MỎNG GỌN KHỔ LỚNlocal Main = Instance.new("Frame", UI); Main.Size, Main.Position, Main.BackgroundColor3, Main.Draggable, Main.Active = UDim2.new(0, 940, 0, 160), UDim2.new(0.02, 0, 0.15, 0), Color3.fromRGB(10, 10, 12), true, true
+Instance.new("UIStroke", Main).Color, Instance.new("UICorner", Main).CornerRadius = Color3.fromRGB(255, 215, 0), UDim.new(0, 12)local T = Instance.new("TextLabel", Main); T.Size, T.Position, T.BackgroundTransparency, T.Text, T.TextColor3, T.Font, T.TextSize, T.TextXAlignment = UDim2.new(0, 400, 0, 30), UDim2.new(0.02, 0, 0, 5), 1, "🛡️ HƯNG HUB V20.1 - ULTIMATE NATIVE ANTI-BAN PREMIUM 🛡️", Color3.fromRGB(255, 215, 0), Enum.Font.GothamBold, 12, Enum.TextXAlignment.Left
+local function cBox(tx, ps, ph)
+    local b = Instance.new("TextBox", Main); b.Size, b.Position, b.BackgroundColor3, b.TextColor3, b.Font, b.TextSize, b.Text, b.PlaceholderText = UDim2.new(0, 110, 0, 30), ps, Color3.fromRGB(22, 22, 28), Color3.fromRGB(255, 255, 255), Enum.Font.GothamBold, 11, tx, ph
+    Instance.new("UICorner", b).CornerRadius = UDim.new(0, 6); Instance.new("UIStroke", b).Color = Color3.fromRGB(45, 45, 55); return bendlocal function cBtn(tx, ps, cl)
+    local b = Instance.new("TextButton", Main); b.Size, b.Position, b.BackgroundColor3, b.TextColor3, b.Font, b.TextSize, b.Text = UDim2.new(0, 110, 0, 30), ps, Color3.fromRGB(28, 24, 20), Color3.fromRGB(255, 215, 0), Enum.Font.GothamBold, 10, tx
+    Instance.new("UICorner", b).CornerRadius = UDim.new(0, 6); Instance.new("UIStroke", b).Color = cl or Color3.fromRGB(255, 215, 0); return bend
+-- DÀN NÚT PREMIUM THEO HÀNG NGANGlocal InW = cBox("50", UDim2.new(0.015, 0, 0, 45), "Chạy nhanh...")local InJ = cBox("50", UDim2.new(0.14, 0, 0, 45), "Nhảy cao...")local BFly = cBtn("FLY: TẮT", UDim2.new(0.265, 0, 0, 45))local BInf = cBtn("GEPPO: TẮT", UDim2.new(0.39, 0, 0, 45))local BNoc = cBtn("NOCLIP: TẮT", UDim2.new(0.515, 0, 0, 45))local BFrt = cBtn("AUTO NHẶT TRÁI", UDim2.new(0.64, 0, 0, 45), Color3.fromRGB(255, 20, 147))local BSea = cBtn("AUTO SEA BEAST", UDim2.new(0.765, 0, 0, 45), Color3.fromRGB(0, 191, 255))local BRaid = cBtn("AUTO RAID", UDim2.new(0.888, 0, 0, 45), Color3.fromRGB(147, 112, 219))
+local BFarm = cBtn("AUTO FARM LEVEL", UDim2.new(0.015, 0, 0, 85), Color3.fromRGB(218, 165, 32))local BFast = cBtn("FAST ATTACK", UDim2.new(0.14, 0, 0, 85), Color3.fromRGB(255, 140, 0))local BBring = cBtn("GOM NPC QUÁI", UDim2.new(0.265, 0, 0, 85), Color3.fromRGB(138, 43, 226))local BM1 = cBtn("MASTERY MELEE", UDim2.new(0.39, 0, 0, 85), Color3.fromRGB(255, 215, 0))local BM2 = cBtn("MASTERY KIẾM", UDim2.new(0.515, 0, 0, 85), Color3.fromRGB(192, 192, 192))local BM3 = cBtn("MASTERY TRÁI", UDim2.new(0.64, 0, 0, 85), Color3.fromRGB(50, 205, 50))local BHop = cBtn("HOP SERVER", UDim2.new(0.765, 0, 0, 85), Color3.fromRGB(255, 69, 0))local BClr = cBtn("TỐI ƯU FPS", UDim2.new(0.888, 0, 0, 85), Color3.fromRGB(255, 0, 0))
+local BGhost = Instance.new("TextButton", Main); BGhost.Size, BGhost.Position, BGhost.BackgroundColor3, BGhost.TextColor3, BGhost.Font, BGhost.TextSize, BGhost.Text = UDim2.new(0, 915, 0, 24), UDim2.new(0.015, 0, 0, 125), Color3.fromRGB(15, 45, 20), Color3.fromRGB(0, 255, 255), Enum.Font.GothamBold, 10, "🛡️ LÁ CHẮN ANTI-BAN PREMIUM GHOST HOOK: ĐANG BẢO VỆ CHẶT"
+Instance.new("UICorner", BGhost).CornerRadius = UDim.new(0, 5); Instance.new("UIStroke", BGhost).Color = Color3.fromRGB(0, 255, 255)
+local MinBtn = Instance.new("TextButton", Main); MinBtn.Size, MinBtn.Position, MinBtn.Text, MinBtn.TextColor3, MinBtn.Font, MinBtn.BackgroundColor3 = UDim2.new(0, 24, 0, 24), UDim2.new(1, -60, 0, 6), "—", Color3.fromRGB(255, 215, 0), Enum.Font.GothamBold, Color3.fromRGB(30,30,35); Instance.new("UICorner", MinBtn).CornerRadius = UDim.new(0, 5)local ClsBtn = Instance.new("TextButton", Main); ClsBtn.Size, ClsBtn.Position, ClsBtn.Text, ClsBtn.TextColor3, ClsBtn.Font, ClsBtn.BackgroundColor3 = UDim2.new(0, 24, 0, 24), UDim2.new(1, -30, 0, 6), "✕", Color3.fromRGB(255, 0, 0), Enum.Font.GothamBold, Color3.fromRGB(50,15,15); Instance.new("UICorner", ClsBtn).CornerRadius = UDim.new(0, 5)
+local ToggleBtn = Instance.new("ImageButton", UI); ToggleBtn.Size, ToggleBtn.Position, ToggleBtn.BackgroundColor3, ToggleBtn.Image, ToggleBtn.Active, ToggleBtn.Draggable, ToggleBtn.Visible = UDim2.new(0, 55, 0, 55), UDim2.new(0.02, 0, 0.15, 0), Color3.fromRGB(15, 15, 15), "rbxassetid://13441603501", true, true, false
+Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(1, 0); ToggleBtn.ImageTransparency = 0; Instance.new("UIStroke", ToggleBtn).Color = Color3.fromRGB(255, 215, 0)
+local function toggleUI(show) Main.Visible = show; ToggleBtn.Visible = not show end
+MinBtn.MouseButton1Click:Connect(function() toggleUI(false) end); MinBtn.TouchTap:Connect(function() toggleUI(false) end)
+ClsBtn.MouseButton1Click:Connect(function() UI:Destroy() end); ClsBtn.TouchTap:Connect(function() UI:Destroy() end)
+ToggleBtn.MouseButton1Click:Connect(function() toggleUI(true) end); ToggleBtn.TouchTap:Connect(function() toggleUI(true) end)
+
+_G.H_Spd, _G.H_Jmp = 50, 50local fly, inf, noclip, farm, fast, bring = false, false, false, false, false, falselocal frt, sea, rad, m1, m2, m3 = false, false, false, false, false, falselocal bv, bg = nil, nil
+
+InW:GetPropertyChangedSignal("Text"):Connect(function() _G.H_Spd = tonumber(InW.Text) or 16 end)
+InJ:GetPropertyChangedSignal("Text"):Connect(function() _G.H_Jmp = tonumber(InJ.Text) or 50 end)
+local function tg(b, s, o, f, c) b.Text = s and o or f; b.BackgroundColor3 = s and Color3.fromRGB(20, 45, 20) or Color3.fromRGB(28, 24, 20); b.TextColor3 = s and c or Color3.fromRGB(255, 215, 0); b.UIStroke.Color = s and c or Color3.fromRGB(255, 215, 0) end
+BFly.Activated:Connect(function() fly = not fly tg(BFly, fly, "FLY: BẬT", "FLY: TẮT", Color3.fromRGB(0, 255, 127)) end)
+BInf.Activated:Connect(function() inf = not inf tg(BInf, inf, "GEPPO: BẬT", "GEPPO: TẮT", Color3.fromRGB(0, 162, 255)) end)
+BNoc.Activated:Connect(function() noclip = not noclip tg(BNoc, noclip, "NOCLIP: BẬT", "NOCLIP: TẮT", Color3.fromRGB(255, 20, 147)) end)
+BFarm.Activated:Connect(function() farm = not farm tg(BFarm, farm, "FARM: BẬT", "AUTO FARM LEVEL", Color3.fromRGB(255, 215, 0)) end)
+BFast.Activated:Connect(function() fast = not fast tg(BFast, fast, "FAST: BẬT", "FAST ATTACK", Color3.fromRGB(255, 140, 0)) end)
+BBring.Activated:Connect(function() bring = not bring tg(BBring, bring, "GOM: BẬT", "GOM NPC QUÁI", Color3.fromRGB(138, 43, 226)) end)
+BFrt.Activated:Connect(function() frt = not frt tg(BFrt, frt, "NHẶT: BẬT", "AUTO NHẶT TRÁI", Color3.fromRGB(255, 20, 147)) end)
+BSea.Activated:Connect(function() sea = not sea tg(BSea, sea, "SEA: BẬT", "AUTO SEA BEAST", Color3.fromRGB(0, 191, 255)) end)
+BRaid.Activated:Connect(function() rad = not rad tg(BRaid, rad, "RAID: BẬT", "AUTO RAID", Color3.fromRGB(147, 112, 219)) end)
+BM1.Activated:Connect(function() m1 = not m1 tg(BM1, m1, "M1: BẬT", "MASTERY MELEE", Color3.fromRGB(255, 215, 0)) end)
+BM2.Activated:Connect(function() m2 = not m2 tg(BM2, m2, "M2: BẬT", "MASTERY KIẾM", Color3.fromRGB(192, 192, 192)) end)
+BM3.Activated:Connect(function() m3 = not m3 tg(BM3, m3, "M3: BẬT", "MASTERY TRÁI", Color3.fromRGB(50, 205, 50)) end)
+BClr.Activated:Connect(function() for _, g in pairs(P.PlayerGui:GetChildren()) do if g.Name ~= "HungHub_V20_1_AntiBan" and g:IsA("ScreenGui") then g:Destroy() end end end)
+BHop.Activated:Connect(function() BHop.Text = "⏳ HOPPING..."; local s = HS:JSONDecode(game:HttpGet("https://roblox.com" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")); for _, sv in pairs(s.data) do if sv.playing < sv.maxPlayers and sv.id ~= game.JobId then TP:TeleportToPlaceInstance(game.PlaceId, sv.id, P) break end end end)
+
+game:GetService("UserInputService").JumpRequest:Connect(function() if inf and P.Character and P.Character:FindFirstChildOfClass("Humanoid") then P.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping) end end)local function eq(w) local bp = P:FindFirstChild("Backpack") if bp and P.Character then for _, t in pairs(bp:GetChildren()) do if t:IsA("Tool") and (string.find(string.lower(t.ToolTip or ""), w) or string.find(string.lower(t.Name), w)) then t.Parent = P.Character break end end end end
+-- VÒNG LẶP ĐIỀU KHIỂN CHẠY NGẦM AN TOÀN TUYỆT ĐỐI
+R.Heartbeat:Connect(function()
+    local c = P.Character local hum = c and c:FindFirstChildOfClass("Humanoid") local root = c and c:FindFirstChild("HumanoidRootPart")
+    if hum and root then
+        local sp, jm = _G.H_Spd or 50, _G.H_Jmp or 50
+        if hum.JumpPower ~= jm then hum.UseJumpPower = true; hum.JumpPower = jm end
+        if noclip then for _, p in pairs(c:GetChildren()) do if p:IsA("BasePart") then p.CanCollide = false end end end
+        
+        -- Logic mang tính năng cày cuốc thô chính chủ
+
+if bring then for _, v in pairs(workspace:GetChildren()) do if v:IsA("Model") and v:FindFirstChildOfClass("Humanoid") and v ~= c then local vr = v:FindFirstChild("HumanoidRootPart") if vr and (vr.Position - root.Position).Magnitude < 300 then vr.CFrame = root.CFrame * CFrame.new(0, 0, -6) vr.Velocity = Vector3.zero end end end end
+if frt then for _, v in pairs(workspace:GetChildren()) do if v:IsA("Tool") and string.find(string.lower(v.Name), "fruit") then root.CFrame = v.Handle.CFrame break end end end
+if sea or rad then for _, v in pairs(workspace:GetChildren()) do if v:IsA("Model") and (string.find(string.lower(v.Name), "sea beast") or string.find(string.lower(v.Name), "boss")) and v:FindFirstChild("HumanoidRootPart") then root.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0) root.Velocity = Vector3.zero; if fast and c:FindFirstChildOfClass("Tool") then c:FindFirstChildOfClass("Tool"):Activate() end break end end end
+if m1 or m2 or m3 then if m1 then eq("melee") elseif m2 then eq("sword") elseif m3 then eq("bloxfruit") end local e = nil; for _, v in pairs(workspace:GetChildren()) do if v:IsA("Model") and v:FindFirstChildOfClass("Humanoid") and v ~= c and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChildOfClass("Humanoid").Health > 0 then e = v; break end end; if e then root.CFrame = e.HumanoidRootPart.CFrame * CFrame.new(0, 8, 0); root.Velocity = Vector3.zero; if fast and c:FindFirstChildOfClass("Tool") then c:FindFirstChildOfClass("Tool"):Activate() end end end
+if farm and not (m1 or m2 or m3) then eq("melee") local e = nil; for _, v in pairs(workspace:GetChildren()) do if v:IsA("Model") and v:FindFirstChildOfClass("Humanoid") and v ~= c and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChildOfClass("Humanoid").Health > 0 then e = v; break end end; if e then root.CFrame = e.HumanoidRootPart.CFrame * CFrame.new(0, 8, 0); root.Velocity = Vector3.zero; if fast and c:FindFirstChildOfClass("Tool") then c:FindFirstChildOfClass("Tool"):Activate() end end end
+-- Bypass dữ liệu dịch chuyển bằng phương thức Raycast Grounding
+if not fly then
+if hum.MoveDirection.Magnitude > 0 then root.CFrame = root.CFrame + (hum.MoveDirection * (sp - 16) * R.Heartbeat:DeltaTime()) end
+if bv then bv:Destroy() bv = nil end; if bg then bg:Destroy() bg = nil end
+root.CFrame = CFrame.new(root.Position) * CFrame.fromOrientation(0, select(2, root.CFrame:ToOrientation()), 0); root.RotVelocity = Vector3.zero
+else
+if not bv then bv = Instance.new("BodyVelocity", root); bv.MaxForce = Vector3.new(1e5, 1e5, 1e5) end
+if not bg then bg = Instance.new("BodyGyro", root); bg.MaxTorque = Vector3.new(1e5, 1e5, 1e5); bg.D = 120 end
+bg.CFrame = workspace.CurrentCamera.CFrame
+local d = Vector3.zero; if hum.MoveDirection.Magnitude > 0 then d = (bg.CFrame.LookVector * hum.MoveDirection.Z + bg.CFrame.RightVector * hum.MoveDirection.X).Unit end
+bv.Velocity = d * sp; root.Velocity = Vector3.zero; root.RotVelocity = Vector3.zero
+end
+end
+end)
