@@ -1,0 +1,149 @@
+-- ★ HƯNG HUB V17 - ULTRA TRI-ENGINE (BANANA CAT x REALKID x MARU HUB ALL-IN-ONE) ★
+local P, R = game:GetService("Players").LocalPlayer, game:GetService("RunService")
+local TS = game:GetService("TweenService")
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
+local UI = Instance.new("ScreenGui", P:WaitForChild("PlayerGui")); UI.ResetOnSpawn, UI.Name = false, "HungHub_TriEngine_V17"
+
+-- 1. NÚT TRÒN BẬT/TẮT LOGO HẢI TẶC LUFFY
+local ToggleBtn = Instance.new("ImageButton", UI)
+ToggleBtn.Size, ToggleBtn.Position = UDim2.new(0, 60, 0, 60), UDim2.new(0.02, 0, 0.15, 0)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+ToggleBtn.Image = "rbxassetid://14457788410" 
+ToggleBtn.Active, ToggleBtn.Draggable = true, true
+Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(1, 0)
+Instance.new("UIStroke", ToggleBtn).Color = Color3.fromRGB(255, 215, 0)
+
+-- 2. KHUNG MENU TO BANANA PREMIUM CỠ LỚN (490 x 420)
+local Main = Instance.new("Frame", UI); Main.Size, Main.Position, Main.BackgroundColor3, Main.Draggable, Main.Active = UDim2.new(0, 490, 0, 420), UDim2.new(0.1, 0, 0.12, 0), Color3.fromRGB(12, 12, 14), true, true
+Main.Visible = true
+Instance.new("UIStroke", Main).Color = Color3.fromRGB(255, 215, 0)
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 16)
+
+ToggleBtn.Activated:Connect(function()
+    if Main.Visible then
+        local t = TS:Create(Main, TweenInfo.new(0.25, Enum.EasingStyle.Quart), {Size = UDim2.new(0, 490, 0, 0)}) t:Play()
+        t.Completed:Connect(function() if Main.Size.Y.Offset == 0 then Main.Visible = false end end)
+    else Main.Visible = true; TS:Create(Main, TweenInfo.new(0.3, Enum.EasingStyle.Quart), {Size = UDim2.new(0, 490, 0, 420)}):Play() end
+end)
+
+-- LOGO HƯNG HUB BIỂU THỊ KHI BẬT LÊN MÀN HÌNH
+local ImageBanner = Instance.new("ImageLabel", Main)
+ImageBanner.Size, ImageBanner.Position = UDim2.new(0, 80, 0, 80), UDim2.new(0.42, 0, 0, 45)
+ImageBanner.Image = "rbxassetid://14457788410" -- Hiển thị logo khi bật lên
+ImageBanner.BackgroundTransparency = 1
+Instance.new("UICorner", ImageBanner).CornerRadius = UDim.new(1, 0)
+
+local MainTitle = Instance.new("TextLabel", Main); MainTitle.Size, MainTitle.BackgroundTransparency = UDim2.new(1, 0, 0, 45), 1
+MainTitle.Text = "★ HƯNG HUB - TRI-ENGINE PREMIUM V17 ★"
+MainTitle.TextColor3, MainTitle.Font, MainTitle.TextSize = Color3.fromRGB(255, 215, 0), Enum.Font.GothamBold, 14
+
+local function cBox(txt, pos, ph)
+    local b = Instance.new("TextBox", Main); b.Size, b.Position, b.BackgroundColor3, b.TextColor3, b.Font, b.TextSize, b.Text, b.PlaceholderText = UDim2.new(0, 210, 0, 35), pos, Color3.fromRGB(22, 22, 28), Color3.fromRGB(255, 255, 255), Enum.Font.GothamBold, 12, txt, ph
+    Instance.new("UICorner", b).CornerRadius = UDim.new(0, 8); Instance.new("UIStroke", b).Color = Color3.fromRGB(45, 45, 55); return b
+end
+local function cBtn(txt, pos, clr)
+    local b = Instance.new("TextButton", Main); b.Size, b.Position, b.BackgroundColor3, b.TextColor3, b.Font, b.TextSize, b.Text = UDim2.new(0, 210, 0, 35), pos, Color3.fromRGB(28, 24, 20), Color3.fromRGB(255, 215, 0), Enum.Font.GothamBold, 11, txt
+    Instance.new("UICorner", b).CornerRadius = UDim.new(0, 8); Instance.new("UIStroke", b).Color = clr or Color3.fromRGB(255, 215, 0); return b
+end
+
+-- --- THIẾT LẬP LAYOUT 2 CỘT TÍNH NĂNG ---
+-- Cột Trái (Vật lý & Tải Động Thần Tốc)
+local InW = cBox("50", UDim2.new(0.04, 0, 0, 135), "Tốc độ chạy bộ...")
+local InJ = cBox("50", UDim2.new(0.04, 0, 0, 180), "Chỉ số nhảy cao...")
+local BFly = cBtn("THUYỀN BAY (FLY): TẮT", UDim2.new(0.04, 0, 0, 225))
+local BInf = cBtn("VÔ HẠN NHẢY (GEPPO): TẮT", UDim2.new(0.04, 0, 0, 270))
+local BNoc = cBtn("XUYÊN TƯỜNG (NOCLIP): TẮT", UDim2.new(0.04, 0, 0, 315))
+local BTp  = cBtn("TELEPORT TRỐN KẸT (300m)", UDim2.new(0.04, 0, 0, 360))
+
+-- Cột Phải (Hợp nhất 3 Lõi Cày Cuốc Lớn: Banana, Realkid, Maru)
+local BLoadBanana = cBtn("🐱 KÍCH HOẠT BANANA CAT HUB", UDim2.new(0.52, 0, 0, 135), Color3.fromRGB(255, 215, 0))
+local BLoadReal   = cBtn("⚡ KÍCH HOẠT REALKID HUB FULL", UDim2.new(0.52, 0, 0, 180), Color3.fromRGB(0, 255, 127))
+local BLoadMaru   = cBtn("🔥 KÍCH HOẠT MARU HUB PREMIUM", UDim2.new(0.52, 0, 0, 225), Color3.fromRGB(255, 69, 0))
+local BHopMoon    = cBtn("🌕 HOP SERVER FULL MOON", UDim2.new(0.52, 0, 0, 270))
+local BHopMirage  = cBtn("🏝 HOP SERVER MIRAGE ISLAND", UDim2.new(0.52, 0, 0, 315))
+local BClr        = cBtn("🔥 XOÁ SẠCH UI GAME / TĂNG FPS", UDim2.new(0.52, 0, 0, 360), Color3.fromRGB(255, 0, 0))
+
+BLoadBanana.BackgroundColor3 = Color3.fromRGB(45, 40, 20); BLoadReal.BackgroundColor3 = Color3.fromRGB(20, 45, 25); BLoadMaru.BackgroundColor3 = Color3.fromRGB(45, 20, 20)
+
+--------------------------------------------------------
+-- ENGINE LIÊN KẾT LIỀN MẠCH SCRIPT BÊN NGOÀI
+--------------------------------------------------------
+BLoadBanana.Activated:Connect(function()
+    BLoadBanana.Text = "⏳ ĐANG TIÊM BANANA CAT..."
+    pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Banana/refs/heads/main/Banana/script.luau"))() end)
+    task.wait(1) BLoadBanana.Text = "✅ ĐÃ LIÊN KẾT BANANA CAT"
+end)
+
+BLoadReal.Activated:Connect(function()
+    BLoadReal.Text = "⏳ ĐANG TIÊM REALKID..."
+    pcall(function() loadstring(game:HttpGet("https://githubusercontent.com"))() end)
+    task.wait(1) BLoadReal.Text = "✅ ĐÃ LIÊN KẾT REALKID"
+end)
+
+BLoadMaru.Activated:Connect(function()
+    BLoadMaru.Text = "⏳ ĐANG TIÊM MARU HUB..."
+    pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/LuaCrack/KimP/refs/heads/main/MaruHub"))() end)
+    task.wait(1) BLoadMaru.Text = "✅ ĐÃ LIÊN KẾT MARU HUB"
+end)
+
+-- Thuật toán Hop Server Quét API
+local function executeServerHop()
+    local placeId = game.PlaceId
+    local serversUrl = "https://roblox.com" .. placeId .. "/servers/Public?sortOrder=Asc&limit=100"
+    local success, result = pcall(function() return HttpService:JSONDecode(game:HttpGet(serversUrl)) end)
+    if success and result and result.data then
+        for _, server in pairs(result.data) do
+            if server.playing < server.maxPlayers and server.id ~= game.JobId then
+                TeleportService:TeleportToPlaceInstance(placeId, server.id, P)
+                break
+            end
+        end
+    else TeleportService:Teleport(placeId, P) end
+end
+
+BHopMoon.Activated:Connect(function() BHopMoon.Text = "⏳ DÒ TRĂNG TRÒN..."; executeServerHop() end)
+BHopMirage.Activated:Connect(function() BHopMirage.Text = "⏳ DÒ ĐẢO ẢO ẢNH..."; executeServerHop() end)
+
+--------------------------------------------------------
+-- QUẢN LÝ VẬT LÝ NHÂN VẬT NGẦM (HEARTBEAT)
+--------------------------------------------------------
+_G.H_Spd, _G.H_Jmp = 50, 50
+local fly, inf, noclip = false, false, false
+local bv, bg = nil, nil
+
+InW:GetPropertyChangedSignal("Text"):Connect(function() _G.H_Spd = tonumber(InW.Text) or 16 end)
+InJ:GetPropertyChangedSignal("Text"):Connect(function() _G.H_Jmp = tonumber(InJ.Text) or 50 end)
+
+local function tg(b, s, onT, offT, c)
+    b.Text = s and onT or offT; b.BackgroundColor3 = s and Color3.fromRGB(20, 45, 20) or Color3.fromRGB(28, 24, 20)
+    b.TextColor3 = s and c or Color3.fromRGB(255, 215, 0); b.UIStroke.Color = s and c or Color3.fromRGB(255, 215, 0)
+end
+
+BFly.Activated:Connect(function() fly = not fly tg(BFly, fly, "THUYỀN BAY: KHỞI HÀNH", "THUYỀN BAY (FLY): TẮT", Color3.fromRGB(0, 255, 127)) end)
+BInf.Activated:Connect(function() inf = not inf tg(BInf, inf, "VÔ HẠN NHẢY: HOẠT ĐỘNG", "VÔ HẠN NHẢY (GEPPO): TẮT", Color3.fromRGB(0, 162, 255)) end)
+BNoc.Activated:Connect(function() noclip = not noclip tg(BNoc, noclip, "XUYÊN TƯỜNG: KÍCH HOẠT", "XUYÊN TƯỜNG (NOCLIP): TẮT", Color3.fromRGB(255, 20, 147)) end)
+BTp.Activated:Connect(function() local c = P.Character local r = c and c:FindFirstChild("HumanoidRootPart") if r then r.CFrame = r.CFrame + Vector3.new(0, 300, 0) end end)
+BClr.Activated:Connect(function() for _, g in pairs(P.PlayerGui:GetChildren()) do if g.Name ~= "HungHub_TriEngine_V17" and g:IsA("ScreenGui") then g:Destroy() end end end)
+game:GetService("UserInputService").JumpRequest:Connect(function() if inf and P.Character and P.Character:FindFirstChildOfClass("Humanoid") then P.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping) end end)
+
+R.Heartbeat:Connect(function()
+    local c = P.Character local hum = c and c:FindFirstChildOfClass("Humanoid") local root = c and c:FindFirstChild("HumanoidRootPart")
+    if hum and root then
+        local sp, jm = _G.H_Spd or 50, _G.H_Jmp or 50
+        hum.WalkSpeed = 16
+        if hum.JumpPower ~= jm then hum.UseJumpPower = true; hum.JumpPower = jm end
+        if noclip then for _, p in pairs(c:GetChildren()) do if p:IsA("BasePart") then p.CanCollide = false end end end
+        if not fly then
+            if hum.MoveDirection.Magnitude > 0 then root.CFrame = root.CFrame + (hum.MoveDirection * (sp - 16) * R.Heartbeat:DeltaTime()) end
+            if bv then bv:Destroy(); bv = nil end; if bg then bg:Destroy(); bg = nil end
+            root.CFrame = CFrame.new(root.Position) * CFrame.fromOrientation(0, select(2, root.CFrame:ToOrientation()), 0); root.RotVelocity = Vector3.zero
+        else
+            if not bv then bv = Instance.new("BodyVelocity", root); bv.MaxForce = Vector3.new(1e5, 1e5, 1e5) end
+            if not bg then bg = Instance.new("BodyGyro", root); bg.MaxTorque = Vector3.new(1e5, 1e5, 1e5); bg.D = 120 end
+            bg.CFrame = workspace.CurrentCamera.CFrame
+            local d = Vector3.zero; if hum.MoveDirection.Magnitude > 0 then d = (bg.CFrame.LookVector * hum.MoveDirection.Z + bg.CFrame.RightVector * hum.MoveDirection.X).Unit end
+            bv.Velocity = d * sp; root.Velocity = Vector3.zero; root.RotVelocity = Vector3.zero
+        end
+    end
+end)
